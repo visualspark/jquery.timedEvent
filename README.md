@@ -1,13 +1,45 @@
 # TimedEvent
+*version:1*
+
+TimedEvent is a jQuery  plugin that displays a countdown timer then triggers a custom event once the timer reaches 0. This event can also be triggered on a remote object rather than the timer.
 
 ## Options and Attributes
 By default the plugin will look for explicit options passed in via javascript instantiation. If nothing is passed then the plugin will look for on element declaration. Those available declarations are:
 
-```data-emit-target=" " ```
+```
+data-emit-target="#mySelector, .class .selector"
+```
+or
+```
+{
+    emitTarget:"#mySelector, .class .selector"
+}
+```
 target element to emit event from
 
-```data-emit-event=" " ```
+```
+data-emit-event="my.customEvent"
+```
+or
+```
+{
+    emitEvent:"my.customEvent"
+}
+```
 Custom event name that will be emmited at the end of a countdown
+Default: "te.finish"
+
+```
+data-emit-time="30"
+```
+or
+```
+{
+    emitTime:"my.customEvent"
+}
+```
+The time period between events being triggered.
+Default: 30seconds
 
 ## Example usage
 
@@ -15,7 +47,7 @@ Custom event name that will be emmited at the end of a countdown
 
 ```
 <span class="countDownDefault"></span>
-$('.countDownDefault').TimedEvent().on("cd.finish",function(){
+$('.countDownDefault').TimedEvent().on("te.finish",function(){
    // make magic happen
 });
 ```
@@ -44,10 +76,19 @@ the target element listening for what ever event is triggered, somewhere on the 
 ```
 
 ```
-$('#displayDefaultTarget').on("cd.finish",function(e){
+$('#displayDefaultTarget').on("te.finish",function(e){
     // make magic happen
 });
 ```
 
+## Bugs
+
+This plugin is only new so feedback and useful bug reports are extremely handy. A bug is a *demonstrable problem* that is caused by the code in the
+repository. Good bug reports are extremely helpful!
+
 ## Roadmap
-- Support for numerical string types eg: mm:ss
+- Support for various numerical display types eg: mm:ss
+- Pause timer event
+
+## Suggestions
+I am open to enhancements to the plugin so please send ideas or suggestions through.
