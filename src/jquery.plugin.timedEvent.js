@@ -1,10 +1,20 @@
+/*!
+ * jQuery Timed Event
+ * Copyright Stephen Macchia
+ * Licensed under the MIT license
+ */
+/**
+ * @title jQuery Timed Event
+ * @Author Stephen Macchia
+ * @version 1.0
+ * @description TimedEvent is a jQuery  plugin that displays a countdown timer then triggers a custom event once the timer reaches 0
+ */
+
 ;(function ( $ ) {
     var pluginName = "TimedEvent";
 
     var vstimer = function ( el, options ) {
-        /*  To avoid scope issues, use 'base' instead of 'this'
-             to reference this class from internal events and functions.
-        */
+
         var base = this;
 
         /**
@@ -45,12 +55,12 @@
             var opts = base.options
                 , remainingTime;
 
-            opts.time = opts.time - 1;
+            opts.emitTime = opts.emitTime - 1;
 
             remainingTime = (opts.time.toString().length == 1)? "0"+ opts.time : opts.time;
             base.$el.html("00:" + remainingTime);
 
-            if( !opts.time ){
+            if( !opts.emitTime ){
 
                 base.$el.trigger( opts.emitEvent );
 
@@ -69,9 +79,9 @@
      * @type {{emitEvent: string, emitTarget: boolean, time: number}}
      */
     vstimer.defaultOptions = {
-        emitEvent: "cd.finish",
+        emitEvent: "te.finish",
         emitTarget: false,
-        time: 10
+        emitTime: 30
     };
 
     /**
@@ -91,7 +101,7 @@
 
 
             options.emitEvent = options.emitEvent || $this.data("emitEvent");
-            options.time = options.time || $this.data("emitTime");
+            options.emitTime = options.emitTime || $this.data("emitTime");
 
             ( new vstimer(this,  options));
         });

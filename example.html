@@ -14,12 +14,12 @@
             });
 
             // using default event being triggered from time
-            $('.countDownDefault').TimedEvent().on("cd.finish",function(){
+            $('.countDownDefault').TimedEvent().on("te.finish",function(){
                 $('#displayDefaultFeedback').html("<p>cd.finish event emitted: " + new Date().toLocaleTimeString()+"</p>")
             });
 
             // Target a custom target
-            $('#displayDefaultTarget').on("cd.finish",function(e){
+            $('#displayDefaultTarget').on("te.finish",function(){
                 $('#displayDefaultTarget').html("<p>custom target event triggered: " + new Date()+"</p>")
             });
         });
