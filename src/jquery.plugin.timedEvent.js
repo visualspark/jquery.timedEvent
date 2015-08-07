@@ -37,7 +37,7 @@
             base.options = $.extend({},
                 vstimer.defaultOptions, options);
 
-            base.startCount = base.options.time;
+            base.startCount = base.options.emitTime;
 
             if(  typeof base.options.emitTarget === "string"){
                 base.$emitTarget = $(base.options.emitTarget);
@@ -57,7 +57,7 @@
 
             opts.emitTime = opts.emitTime - 1;
 
-            remainingTime = (opts.time.toString().length == 1)? "0"+ opts.time : opts.time;
+            remainingTime = (opts.emitTime.toString().length == 1)? "0"+ opts.emitTime : opts.emitTime;
             base.$el.html("00:" + remainingTime);
 
             if( !opts.emitTime ){
@@ -67,7 +67,7 @@
                 if(base.$emitTarget) {
                     base.$emitTarget.trigger(opts.emitEvent);
                 }
-                base.options.time = base.startCount;
+                base.options.emitTime = base.startCount;
             }
         };
 
