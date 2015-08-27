@@ -11,7 +11,7 @@
  */
 
 ;(function ( $ ) {
-    var pluginName = "TimedEvent";
+    var pluginName = "timedEvent";
 
     var vstimer = function ( el, options ) {
 
@@ -68,6 +68,8 @@
                     base.$emitTarget.trigger(opts.emitEvent);
                 }
                 base.options.emitTime = base.startCount;
+
+              if( !opts.loop ) clearInterval( base.interval );
             }
         };
 
@@ -76,12 +78,13 @@
 
     /**
      * Default options
-     * @type {{emitEvent: string, emitTarget: boolean, time: number}}
+     * @type {{emitEvent: string, emitTarget: boolean, time: number, loop: boolean}}
      */
     vstimer.defaultOptions = {
         emitEvent: "te.finish",
         emitTarget: false,
-        emitTime: 30
+        emitTime: 30,
+        loop: false
     };
 
     /**
@@ -91,14 +94,23 @@
      * @constructor
      */
     $.fn[pluginName] = function (  options ) {
+
+        // ensures 'options' is an object literal (and not an array either)
+        options = (typeof options !== "object" || $.isArray(options) ) ? {} : options;
+
         return this.each(function () {
 
-            var $this = $(this)
-            , options = options || {};
+            var $this = $(this);
 
             // take preference for object, otherwise fallback to data attribute
             options.emitTarget = options.emitTarget || $this.data("emitTarget");
 
+            /**
+             * To set loop to true, you can use `data-loop=true`, `data-loop="true"` or just `data-loop`.
+             * To set to false, do `data-loop=false`, `data-loop="false"` or just omit the `data-loop` attribute altogether.
+             */
+            var loop = $this.data("loop") || false;
+            options.loop = options.loop || (loop === "" ? true : loop);
 
             options.emitEvent = options.emitEvent || $this.data("emitEvent");
             options.emitTime = options.emitTime || $this.data("emitTime");
