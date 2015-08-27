@@ -1,7 +1,7 @@
-# TimedEvent
+# timedEvent
 *version:1.1*
 
-TimedEvent is a jQuery  plugin that displays a countdown timer then triggers a custom event once the timer reaches 0. This event can also be triggered on a remote object rather than the timer.
+timedEvent is a jQuery  plugin that displays a countdown timer then triggers a custom event once the timer reaches 0. This event can also be triggered on a remote object rather than the timer.
 
 ## Options and Attributes
 By default the plugin will look for explicit options passed in via javascript instantiation. If nothing is passed then the plugin will look for on element declaration. Those available declarations are:
@@ -58,7 +58,7 @@ Default: false
 
 ```
 <span class="countDownDefault"></span>
-$('.countDownDefault').TimedEvent().on("te.finish",function(){
+$('.countDownDefault').timedEvent().on("te.finish",function(){
    // make magic happen
 });
 ```
@@ -67,7 +67,7 @@ $('.countDownDefault').TimedEvent().on("te.finish",function(){
 
  ```
  <span class="countDown" data-emit-event="my.refresh" data-loop></span>
- $('.countDown').TimedEvent().on("kjc.priceRefresh",function(){
+ $('.countDown').timedEvent().on("kjc.priceRefresh",function(){
     // make magic happen
 });
 ```
