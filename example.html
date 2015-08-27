@@ -2,19 +2,19 @@
 <html>
 <head>
     <title>Examples</title>
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="src/jquery.plugin.timedEvent.js"></script>
 
     <script>
 
         $(function(){
             // using custom event name being triggered from time
-            $('.countDown').TimedEvent().on("my.refresh",function(){
+            $('.countDown').timedEvent().on("my.refresh",function(){
                 $('#displayFeedback').html("<p>kjc.priceRefresh event emitted: " + new Date().toLocaleTimeString()+"</p>")
             });
 
             // using default event being triggered from time
-            $('.countDownDefault').TimedEvent().on("te.finish",function(){
+            $('.countDownDefault').timedEvent().on("te.finish",function(){
                 $('#displayDefaultFeedback').html("<p>cd.finish event emitted: " + new Date().toLocaleTimeString()+"</p>")
             });
 
@@ -27,20 +27,21 @@
 </head>
 <body>
 
+<h1></h1>
 
-<h1>Custom event</h1>
-<span class="countDown" data-emit-event="my.refresh" data-emit-time="10"></span>
+<h2>Custom event <span style="font-size:0.6em;">(with loop)</span></h2>
+<span class="countDown" data-emit-event="my.refresh" data-emit-time="10" data-loop ></span>
 <div id="displayFeedback"></div>
 
 <hr>
 
-<h1>Default event</h1>
+<h2>Default event <span style="font-size:0.6em;">(without loop)</span></h2>
 <span class="countDownDefault"></span>
 <div id="displayDefaultFeedback"></div>
 
 <hr>
 
-<h1>Default event triggered on custom target</h1>
+<h2>Default event triggered on custom target</h2>
 <!-- the timer, somewhere else on the page -->
 <span class="countDownDefault" data-emit-target="#displayDefaultTarget"></span>
 <!-- the target element listening for what ever event is triggered, somewhere on the page -->

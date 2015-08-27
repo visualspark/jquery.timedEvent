@@ -109,8 +109,8 @@
              * To set loop to true, you can use `data-loop=true`, `data-loop="true"` or just `data-loop`.
              * To set to false, do `data-loop=false`, `data-loop="false"` or just omit the `data-loop` attribute altogether.
              */
-            var loop = $this.data("loop") || false;
-            options.loop = options.loop || (loop === "" ? true : loop);
+            var loop = $this.data("loop");
+            options.loop = options.loop || (loop === "" ? true : (loop || false));
 
             options.emitEvent = options.emitEvent || $this.data("emitEvent");
             options.emitTime = options.emitTime || $this.data("emitTime");
