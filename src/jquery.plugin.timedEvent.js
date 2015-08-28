@@ -58,7 +58,14 @@
             opts.emitTime = opts.emitTime - 1;
 
             remainingTime = (opts.emitTime.toString().length == 1)? "0"+ opts.emitTime : opts.emitTime;
-            base.$el.html("00:" + remainingTime);
+
+            var mins = Math.floor(remainingTime / 60)
+              , secs = remainingTime - (mins * 60);
+
+            mins = mins < 10 ? "0"+mins : mins;
+            secs = secs < 10 ? "0"+secs : secs;
+
+            base.$el.html(mins+":" + secs);
 
             if( !opts.emitTime ){
 

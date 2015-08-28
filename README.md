@@ -1,5 +1,5 @@
 # timedEvent
-*version:1.1*
+*version:1.2*
 
 timedEvent is a jQuery  plugin that displays a countdown timer then triggers a custom event once the timer reaches 0. This event can also be triggered on a remote object rather than the timer.
 
