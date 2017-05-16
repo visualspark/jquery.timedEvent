@@ -11,9 +11,9 @@
  */
 
 ;(function ( $ ) {
-    var pluginName = "TimedEvent";
+    var pluginName = "timedEvent";
 
-    var vstimer = function ( el, options ) {
+    var vstimer = function ( el, options, funcName ) {
 
         var base = this;
 
@@ -44,8 +44,18 @@
             }
 
             // start the ticker
-            base.interval =  setInterval(base._processInterval, 1000);
+            base.play();
         };
+
+        base.pause = function() {
+          console.log( "pause the timer" );
+          clearInterval(base.interval);
+        }
+
+        base.play = function() {
+          console.log( "play the timer" );
+          base.interval =  setInterval(base._processInterval, 1000);
+        }
 
         /**
          * @description interval
@@ -58,7 +68,14 @@
             opts.emitTime = opts.emitTime - 1;
 
             remainingTime = (opts.emitTime.toString().length == 1)? "0"+ opts.emitTime : opts.emitTime;
-            base.$el.html("00:" + remainingTime);
+
+            var mins = Math.floor(remainingTime / 60)
+              , secs = remainingTime - (mins * 60);
+
+            mins = mins < 10 ? "0"+mins : mins;
+            secs = secs < 10 ? "0"+secs : secs;
+
+            base.$el.html(mins+":" + secs);
 
             if( !opts.emitTime ){
 
@@ -68,42 +85,74 @@
                     base.$emitTarget.trigger(opts.emitEvent);
                 }
                 base.options.emitTime = base.startCount;
+
+              if( !opts.loop ) clearInterval( base.interval );
             }
         };
 
-        base.init();
+        if(!funcName) base.init();
     };
 
     /**
      * Default options
-     * @type {{emitEvent: string, emitTarget: boolean, time: number}}
+     * @type {{emitEvent: string, emitTarget: boolean, time: number, loop: boolean}}
      */
     vstimer.defaultOptions = {
         emitEvent: "te.finish",
         emitTarget: false,
-        emitTime: 30
+        emitTime: 30,
+        loop: false
     };
 
     /**
      * Creates the plugin instance on
-     * @param options
+     * @param _funcName (string/object) optional - The name of the function you wish to call. If object is passed instead, will use this as the 'options' object and default to 'init' function.
+     * @param options (object) optional - Will use plugin defaults if none passed.
      * @returns {*}
      * @constructor
      */
-    $.fn[pluginName] = function (  options ) {
+    $.fn[pluginName] = function ( _funcName, options ) {
+
+        var funcName;
+
+        // if first arg is not a function name (string), assume it's a config object
+        if(typeof _funcName === "object" )      options = _funcName;
+        else if(typeof _funcName === "string" ) funcName = _funcName;
+
+        // ensures 'options' is an object literal (and not an array either)
+        options = (typeof options !== "object" || $.isArray(options) ) ? {} : options;
+
         return this.each(function () {
 
             var $this = $(this)
-            , options = options || {};
+              , instance;
 
-            // take preference for object, otherwise fallback to data attribute
-            options.emitTarget = options.emitTarget || $this.data("emitTarget");
+            if( !funcName ) {
+              // take preference for object, otherwise fallback to data attribute
+              options.emitTarget = options.emitTarget || $this.data("emitTarget");
 
+              /**
+               * To set loop to true, you can use `data-loop=true`, `data-loop="true"` or just `data-loop`.
+               * To set to false, do `data-loop=false`, `data-loop="false"` or just omit the `data-loop` attribute altogether.
+               */
+              var loop = $this.data("loop");
+              options.loop = options.loop || (loop === "" ? true : (loop || false));
 
-            options.emitEvent = options.emitEvent || $this.data("emitEvent");
-            options.emitTime = options.emitTime || $this.data("emitTime");
+              options.emitEvent = options.emitEvent || $this.data("emitEvent");
+              options.emitTime = options.emitTime || $this.data("emitTime");
 
-            ( new vstimer(this,  options));
+              instance = new vstimer(this,  options, funcName);
+              $this.data("instance", instance);
+            } else {
+              instance = $this.data("instance");
+
+              if(!instance) return;
+
+              switch(funcName) {
+                case "pause": instance.pause(); break;
+                case "play": instance.play(); break;
+              }
+            }
         });
     };
 
